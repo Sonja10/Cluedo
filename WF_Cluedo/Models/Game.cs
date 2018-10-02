@@ -11,6 +11,8 @@ namespace WF_Cluedo.Models
 {
     class Game
     {
+        const int _POSITION_XY_1ERE_CASE = 10;
+
         List<Joueur> _joueurs; // recoit depuis l'autre forme
         List<AbstractCartes> _combinaisonVictorieuse; // Tirer au hasard dans _toutes les cartes possibles
         List<AbstractCartes> _toutesLesCartesPossibles; // Mettre en dur
@@ -18,7 +20,35 @@ namespace WF_Cluedo.Models
         List<Salle> _salles; 
         Joueur _joueurActuel;
 
-        int[] matriceAffichageCase = new int[] { 1, 2, 3, 4 };
+        // CaseCouloir = 1, Salle = 2, EntréeSalle = 3, Depart = -1, rien = 0
+        int[][] matriceAffichageCase = new int[][]
+        {
+            new int[] { 2, 2, 2, 2, 2, 2, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2 }, 
+            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 1, 1, 1, 3, 2, 2, 2, 0 },
+            new int[] { 0, 2, 2, 2, 3, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, -1 },
+            new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0 },
+            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 0 },
+            new int[] { 2, 2, 2, 2, 2, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 2 },
+            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 3, 2, 2, 2, 2, 2, 2 },
+            new int[] { -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2 }, 
+            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 0 },
+            new int[] { 2, 2, 2, 2, 2, 2, 3, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, -1 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 3, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 3, 2, 2, 2, 2, 2, 2 },
+            new int[] { 2, 2, 2, 2, 2, 2, 0, -1, 0, 0, 2, 2, 2, 2, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2 }
+        };
 
         public List<AbstractCartes> ToutesLesCartesPossibles { get { return _toutesLesCartesPossibles; } private set { _toutesLesCartesPossibles = value; } }
         public List<AbstractPetiteCase> PetitesCases { get { return _petitesCases; } private set { _petitesCases = value; } }
@@ -26,12 +56,31 @@ namespace WF_Cluedo.Models
 
         public Game(List<Joueur> joueurs, Form view)
         {
-            //Set main joueur
+            // Plateau de jeu
+
+            int posX = _POSITION_XY_1ERE_CASE;
+            int posY = _POSITION_XY_1ERE_CASE;
+            int largeurCase = (new CaseCouloir(1, 1)).WIDTH_CASE;
+            int hauteurCase = (new CaseCouloir(1, 1)).HEIGHT_CASE;
 
             PetitesCases = new List<AbstractPetiteCase>();
 
-            CaseCouloir caseCouloir = new CaseCouloir(2, 2);
-            PetitesCases.Add(caseCouloir);
+            for (int i = 0; i < matriceAffichageCase.Length; i++)
+            {
+                for (int j = 0; j < matriceAffichageCase[i].Length; j++)
+                {
+                    if (matriceAffichageCase[i][j] == 1)
+                    {
+                        CaseCouloir caseCouloir = new CaseCouloir(posX, posY);
+                        PetitesCases.Add(caseCouloir);
+                    }
+
+                    posX += largeurCase;
+                }
+
+                posY += hauteurCase;
+                posX = _POSITION_XY_1ERE_CASE;
+            }
 
 
 
@@ -39,6 +88,10 @@ namespace WF_Cluedo.Models
             {
                 view.Paint += apc.Paint;
             }
+
+
+
+            //Set main joueur
         }
 
     }
