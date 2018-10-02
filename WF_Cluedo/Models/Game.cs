@@ -11,43 +11,50 @@ namespace WF_Cluedo.Models
 {
     class Game
     {
-        const int _POSITION_XY_1ERE_CASE = 10;
+        const int _POSITION_X_1ERE_CASE = 50;
+        const int _POSITION_Y_1ERE_CASE = 20;
 
         List<Joueur> _joueurs; // recoit depuis l'autre forme
         List<AbstractCartes> _combinaisonVictorieuse; // Tirer au hasard dans _toutes les cartes possibles
         List<AbstractCartes> _toutesLesCartesPossibles; // Mettre en dur
         List<AbstractPetiteCase> _petitesCases; // Liste de toute les petites cases Sous forme de matrice?
-        List<Salle> _salles; 
+        List<CaseSalle> _salles; 
         Joueur _joueurActuel;
 
-        // CaseCouloir = 1, Salle = 2, EntréeSalle = 3, Depart = -1, rien = 0
+        //CaseCouloir = 1, 
+        //Cuisine = 2, SalleDeBal = 3, Veranda = 4, billard = 5, biblio = 6, bureau = 7, hall = 8, salon = 9, SalleManger = 10, 
+        //EntréesSalles = 11, 
+        //DepartBlanc = -1, DepartVert = -2, DepartBleu = -3, DepartViolet = -4, DepartRose = -5, DepartJaune = -6 
+        //rien = 0
         int[][] matriceAffichageCase = new int[][]
         {
-            new int[] { 2, 2, 2, 2, 2, 2, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            new int[] { 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2 }, 
-            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 1, 1, 1, 3, 2, 2, 2, 0 },
-            new int[] { 0, 2, 2, 2, 3, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, -1 },
-            new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0 },
-            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 0 },
-            new int[] { 2, 2, 2, 2, 2, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 2 },
-            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 3, 2, 2, 2, 2, 2, 2 },
-            new int[] { -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2 }, 
-            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 0 },
-            new int[] { 2, 2, 2, 2, 2, 2, 3, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, -1 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 3, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 3, 2, 2, 2, 2, 2, 2 },
-            new int[] { 2, 2, 2, 2, 2, 2, 0, -1, 0, 0, 2, 2, 2, 2, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2 }
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, -1, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 0, 4, 4, 4, 4, 4, 4, 0 }, 
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 4, 4, 4, 4, 4, 4, 0 },
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 4, 4, 4, 4, 4, 4, 0 },
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 4, 4, 4, 4, 4, 4, 0 },
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 11, 3, 3, 3, 3, 3, 3, 11, 1, 1, 1, 11, 4, 4, 4, 0, 0 },
+            new int[] { 0, 0, 2, 2, 2, 11, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, -3, 0 },
+            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 11, 3, 3, 3, 3, 11, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 5, 5, 5, 5, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 5, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 5, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 11, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 11, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 6, 6, 11, 6, 6, 0, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 11, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 },
+            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 3, 6, 6, 6, 6, 6, 6, 0 },
+            new int[] { 0, -6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 }, 
+            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 11, 11, 8, 8, 1, 1, 1, 6, 6, 6, 6, 6, 0, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 11, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, -4, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 11, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 11, 7, 7, 7, 7, 7, 7, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 7, 7, 7, 7, 7, 7, 7, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 11, 7, 7, 7, 7, 7, 7, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 0, -5, 0, 0, 8, 8, 8, 8, 0, 0, 1, 0, 7, 7, 7, 7, 7, 7, 0 },
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
 
         public List<AbstractCartes> ToutesLesCartesPossibles { get { return _toutesLesCartesPossibles; } private set { _toutesLesCartesPossibles = value; } }
@@ -58,8 +65,8 @@ namespace WF_Cluedo.Models
         {
             // Plateau de jeu
 
-            int posX = _POSITION_XY_1ERE_CASE;
-            int posY = _POSITION_XY_1ERE_CASE;
+            int posX = _POSITION_X_1ERE_CASE;
+            int posY = _POSITION_Y_1ERE_CASE;
             int largeurCase = (new CaseCouloir(1, 1)).WIDTH_CASE;
             int hauteurCase = (new CaseCouloir(1, 1)).HEIGHT_CASE;
 
@@ -74,19 +81,43 @@ namespace WF_Cluedo.Models
                         CaseCouloir caseCouloir = new CaseCouloir(posX, posY);
                         PetitesCases.Add(caseCouloir);
                     }
+                    else if (matriceAffichageCase[i][j] < 0)
+                    {
+                        PetitesCases.Add(new CaseDepart(posX, posY, matriceAffichageCase[i][j]));
+                    }
+                    else if (matriceAffichageCase[i][j] > 1)
+                    {
+                        PetitesCases.Add(new CaseSalle(posX, posY, matriceAffichageCase[i][j]));
+                    }
+                    else
+                    {
+                        PetitesCases.Add(new CaseBordure(posX, posY));
+                    }
 
                     posX += largeurCase;
                 }
 
                 posY += hauteurCase;
-                posX = _POSITION_XY_1ERE_CASE;
+                posX = _POSITION_X_1ERE_CASE;
             }
 
 
 
             foreach (AbstractPetiteCase apc in PetitesCases)
             {
-                view.Paint += apc.Paint;
+                if (apc is CaseCouloir == false)
+                {
+                    view.Paint += apc.Paint;
+                }
+            }
+
+            // 2eme foreach pr que les bordures apparaisses correctementt
+            foreach (AbstractPetiteCase apc in PetitesCases)
+            {
+                if (apc is CaseCouloir)
+                {
+                    view.Paint += apc.Paint;
+                }
             }
 
 
