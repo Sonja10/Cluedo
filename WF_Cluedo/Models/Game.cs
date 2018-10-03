@@ -15,11 +15,24 @@ namespace WF_Cluedo.Models
         const int _POSITION_Y_1ERE_CASE = 20;
 
         List<Joueur> _joueurs; // recoit depuis l'autre forme
+        List<Salle> _salles; // A creer et remplir des casesSalle
         List<AbstractCartes> _combinaisonVictorieuse; // Tirer au hasard dans _toutes les cartes possibles
         List<AbstractCartes> _toutesLesCartesPossibles; // Mettre en dur
         List<AbstractPetiteCase> _petitesCases; // Liste de toute les petites cases Sous forme de matrice?
-        List<CaseSalle> _salles; 
         Joueur _joueurActuel;
+
+        //Cuisine = 2, SalleDeBal = 3, Veranda = 4, billard = 5, biblio = 6, bureau = 7, hall = 8, salon = 9, SalleManger = 10, 
+        public Dictionary<string, int> indexNumSallesEtNoms = new Dictionary<string, int>() {
+            { "Cuisine", 2 },
+            { "Salle de bal", 3 },
+            { "Véranda", 4 },
+            { "Billard", 5 },
+            { "Biblio", 6 },
+            { "Bureau", 7 },
+            { "Hall", 8 },
+            { "Salon", 9 },
+            { "Salle à manger", 10 }
+        };
 
         //CaseCouloir = 1, 
         //Cuisine = 2, SalleDeBal = 3, Veranda = 4, billard = 5, biblio = 6, bureau = 7, hall = 8, salon = 9, SalleManger = 10, 
@@ -45,7 +58,7 @@ namespace WF_Cluedo.Models
             new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
             new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 6, 6, 11, 6, 6, 0, 0 },
             new int[] { 0, 10, 10, 10, 10, 10, 10, 11, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 },
-            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 3, 6, 6, 6, 6, 6, 6, 0 },
+            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 11, 6, 6, 6, 6, 6, 6, 0 },
             new int[] { 0, -6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 }, 
             new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 11, 11, 8, 8, 1, 1, 1, 6, 6, 6, 6, 6, 0, 0 },
             new int[] { 0, 9, 9, 9, 9, 9, 9, 11, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, -4, 0 },
@@ -59,10 +72,13 @@ namespace WF_Cluedo.Models
 
         public List<AbstractCartes> ToutesLesCartesPossibles { get { return _toutesLesCartesPossibles; } private set { _toutesLesCartesPossibles = value; } }
         public List<AbstractPetiteCase> PetitesCases { get { return _petitesCases; } private set { _petitesCases = value; } }
-
+        internal List<Salle> Salles { get => _salles; set => _salles = value; }
+        internal List<Joueur> Joueurs { get => _joueurs; set => _joueurs = value; }
 
         public Game(List<Joueur> joueurs, Form view)
         {
+            Joueurs = joueurs;
+
             // Plateau de jeu
 
             int posX = _POSITION_X_1ERE_CASE;
@@ -71,6 +87,18 @@ namespace WF_Cluedo.Models
             int hauteurCase = (new CaseCouloir(1, 1)).HEIGHT_CASE;
 
             PetitesCases = new List<AbstractPetiteCase>();
+            Salles = new List<Salle>()
+            {
+                new Salle("Cuisine"),
+                new Salle("Salle de bal"),
+                new Salle("Véranda"),
+                new Salle("Billard"),
+                new Salle("Biblio"),
+                new Salle("Bureau"),
+                new Salle("Hall"),
+                new Salle("Salon"),
+                new Salle("Salle à manger")
+            };
 
             for (int i = 0; i < matriceAffichageCase.Length; i++)
             {
@@ -91,7 +119,9 @@ namespace WF_Cluedo.Models
                     }
                     else
                     {
-                        PetitesCases.Add(new CaseBordure(posX, posY));
+                        //Finalement c'est mieux sans : a voir plus tard si tu veux te faire chier a différencier les 4 possibilités
+                        //CaseBordure bordure = new CaseBordure(posX, posY);
+                        //view.Paint += bordure.Paint;
                     }
 
                     posX += largeurCase;
@@ -109,6 +139,46 @@ namespace WF_Cluedo.Models
                 {
                     view.Paint += apc.Paint;
                 }
+
+                if (apc is CaseSalle)
+                {
+                    if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Cuisine"])
+                    {
+                        Salles[0].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Salle de bal"])
+                    {
+                        Salles[1].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Véranda"])
+                    {
+                        Salles[2].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Billard"])
+                    {
+                        Salles[3].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Biblio"])
+                    {
+                        Salles[4].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Bureau"])
+                    {
+                        Salles[5].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Hall"])
+                    {
+                        Salles[6].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Salon"])
+                    {
+                        Salles[7].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Salle à manger"])
+                    {
+                        Salles[8].CasesDeLaSalle.Add(apc as CaseSalle);
+                    }
+                }
             }
 
             // 2eme foreach pr que les bordures apparaisses correctementt
@@ -118,6 +188,12 @@ namespace WF_Cluedo.Models
                 {
                     view.Paint += apc.Paint;
                 }
+            }
+
+            // Pour les labels sur les salles
+            foreach (Salle salle in Salles)
+            {
+                view.Paint += salle.Paint;
             }
 
 

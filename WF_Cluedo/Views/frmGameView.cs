@@ -15,27 +15,17 @@ namespace WF_Cluedo
     public partial class frmGameView : Form
     {
         Game _game;
-        // A faire dans une fenetre a part
-        List<Joueur> _joueurs;
 
         internal Game Game { get { return _game; } set { _game = value; } }
 
         // Cette liste viendra d'une autre fenetre
-        internal List<Joueur> Joueurs
+        internal List<Joueur> Joueurs = new List<Joueur>()
         {
-            get { return _joueurs; }
-
-            set
-            {
-                // Valeurs par defaut changer et mettre dans fenetre a part
-                _joueurs = new List<Joueur>()
-                {
-                    new Joueur(NomsJoueurs.Moutarde),
-                    new Joueur(NomsJoueurs.LeBlanc),
-                    new Joueur(NomsJoueurs.Olive)
-                };
-            }
-        }
+            // Valeurs par defaut changer et mettre dans fenetre a part
+            new Joueur(NomsJoueurs.Moutarde),
+            new Joueur(NomsJoueurs.LeBlanc),
+            new Joueur(NomsJoueurs.Olive)
+        };
 
         public frmGameView()
         {
