@@ -25,6 +25,7 @@ namespace WF_Cluedo.Models.Cases
         {
             PointF p = new PointF(PositionX, PositionY);
             e.Graphics.DrawImage(ImageFond, p);
+            e.Graphics.DrawRectangle(Pens.Gray, p.X, p.Y, WIDTH_CASE, HEIGHT_CASE);
         }
     }
 }

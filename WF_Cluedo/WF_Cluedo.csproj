@@ -46,12 +46,14 @@
   <ItemGroup>
     <Compile Include="Models\Cartes\AbstractCartes.cs" />
     <Compile Include="Models\Cases\AbstractPetiteCase.cs" />
+    <Compile Include="Models\Cases\CaseBordure.cs" />
     <Compile Include="Models\Cases\CaseCouloir.cs" />
     <Compile Include="Models\Cases\CaseDepart.cs" />
-    <Compile Include="Models\Cases\Salle.cs" />
+    <Compile Include="Models\Cases\CaseSalle.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Joueur.cs" />
+    <Compile Include="Models\Salle.cs" />
     <Compile Include="Views\frmGameView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,9 +89,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\image.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\fondCouloirs.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\fondForme.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
