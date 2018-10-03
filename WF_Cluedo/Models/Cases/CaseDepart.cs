@@ -52,7 +52,6 @@ namespace WF_Cluedo.Models.Cases
                     break;
             }
 
-            //e.Graphics.DrawImage(ImageFond, p);
             e.Graphics.FillRectangle(b, p.X, p.Y, WIDTH_CASE, HEIGHT_CASE);
             e.Graphics.DrawRectangle(Pens.Gray, p.X, p.Y, WIDTH_CASE, HEIGHT_CASE);
         }

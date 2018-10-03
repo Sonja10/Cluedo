@@ -39,7 +39,7 @@ namespace WF_Cluedo.Models
         //EntréesSalles = 11, 
         //DepartBlanc = -1, DepartVert = -2, DepartBleu = -3, DepartViolet = -4, DepartRose = -5, DepartJaune = -6 
         //rien = 0
-        int[][] matriceAffichageCase = new int[][]
+        public int[][] matriceAffichageCase = new int[][]
         {
             new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             new int[] { 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, -1, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -75,14 +75,15 @@ namespace WF_Cluedo.Models
         internal List<Salle> Salles { get => _salles; set => _salles = value; }
         internal List<Joueur> Joueurs { get => _joueurs; set => _joueurs = value; }
 
+        public int POSITION_X_1ERE_CASE => _POSITION_X_1ERE_CASE;
+        public int POSITION_Y_1ERE_CASE => _POSITION_Y_1ERE_CASE;
+
         public Game(List<Joueur> joueurs, Form view)
         {
-            Joueurs = joueurs;
-
             // Plateau de jeu
 
-            int posX = _POSITION_X_1ERE_CASE;
-            int posY = _POSITION_Y_1ERE_CASE;
+            int posX = POSITION_X_1ERE_CASE;
+            int posY = POSITION_Y_1ERE_CASE;
             int largeurCase = (new CaseCouloir(1, 1)).WIDTH_CASE;
             int hauteurCase = (new CaseCouloir(1, 1)).HEIGHT_CASE;
 
@@ -128,7 +129,7 @@ namespace WF_Cluedo.Models
                 }
 
                 posY += hauteurCase;
-                posX = _POSITION_X_1ERE_CASE;
+                posX = POSITION_X_1ERE_CASE;
             }
 
 
@@ -140,6 +141,8 @@ namespace WF_Cluedo.Models
                     view.Paint += apc.Paint;
                 }
 
+
+                // Pour repartir les casesSalle dans les bonnes Salles
                 if (apc is CaseSalle)
                 {
                     if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Cuisine"])
@@ -197,6 +200,16 @@ namespace WF_Cluedo.Models
             }
 
 
+
+            // Joueurs
+            Joueurs = joueurs;
+            foreach (Joueur j in Joueurs)
+            {
+                view.Paint += j.Paint;
+                j.PlaceJoueurSurCaseDepart(this);
+            }
+
+            Joueurs[0].PlaceSurCaseDemandee(this, 7, 3);
 
             //Set main joueur
         }
