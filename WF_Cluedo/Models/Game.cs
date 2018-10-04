@@ -34,6 +34,8 @@ namespace WF_Cluedo.Models
             { "Salle à manger", 10 }
         };
 
+        
+
         //CaseCouloir = 1, 
         //Cuisine = 2, SalleDeBal = 3, Veranda = 4, billard = 5, biblio = 6, bureau = 7, hall = 8, salon = 9, SalleManger = 10, 
         //EntréesSalles = 11, 
@@ -131,8 +133,6 @@ namespace WF_Cluedo.Models
                 posY += hauteurCase;
                 posX = POSITION_X_1ERE_CASE;
             }
-
-
 
             foreach (AbstractPetiteCase apc in PetitesCases)
             {
