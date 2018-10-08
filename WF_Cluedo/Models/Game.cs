@@ -11,6 +11,8 @@ namespace WF_Cluedo.Models
 {
     class Game
     {
+        MesDictionaires dicos = new MesDictionaires();
+
         const int _POSITION_X_1ERE_CASE = 50;
         const int _POSITION_Y_1ERE_CASE = 20;
 
@@ -21,18 +23,7 @@ namespace WF_Cluedo.Models
         List<AbstractPetiteCase> _petitesCases; // Liste de toute les petites cases Sous forme de matrice?
         Joueur _joueurActuel;
 
-        //Cuisine = 2, SalleDeBal = 3, Veranda = 4, billard = 5, biblio = 6, bureau = 7, hall = 8, salon = 9, SalleManger = 10, 
-        public Dictionary<string, int> indexNumSallesEtNoms = new Dictionary<string, int>() {
-            { "Cuisine", 2 },
-            { "Salle de bal", 3 },
-            { "Véranda", 4 },
-            { "Billard", 5 },
-            { "Biblio", 6 },
-            { "Bureau", 7 },
-            { "Hall", 8 },
-            { "Salon", 9 },
-            { "Salle à manger", 10 }
-        };
+        
 
         
 
@@ -145,39 +136,39 @@ namespace WF_Cluedo.Models
                 // Pour repartir les casesSalle dans les bonnes Salles
                 if (apc is CaseSalle)
                 {
-                    if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Cuisine"])
+                    if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Cuisine"])
                     {
                         Salles[0].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Salle de bal"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Salle de bal"])
                     {
                         Salles[1].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Véranda"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Véranda"])
                     {
                         Salles[2].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Billard"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Billard"])
                     {
                         Salles[3].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Biblio"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Biblio"])
                     {
                         Salles[4].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Bureau"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Bureau"])
                     {
                         Salles[5].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Hall"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Hall"])
                     {
                         Salles[6].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Salon"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Salon"])
                     {
                         Salles[7].CasesDeLaSalle.Add(apc as CaseSalle);
                     }
-                    else if ((apc as CaseSalle).NumeroSalleCase == indexNumSallesEtNoms["Salle à manger"])
+                    else if ((apc as CaseSalle).NumeroSalleCase == MesDictionaires.NomSallesEtIndexNumCase["Salle à manger"])
                     {
                         Salles[8].CasesDeLaSalle.Add(apc as CaseSalle);
                     }

@@ -12,6 +12,8 @@ namespace WF_Cluedo.Models
 {
     class Joueur
     {
+        MesDictionaires dicos = new MesDictionaires();
+
         const int _TAILLE_PION = 28;
         int _positionX_pion;
         int _positionY_pion;
@@ -20,17 +22,7 @@ namespace WF_Cluedo.Models
         List<AbstractCartes> _cartesEnMain;
         Brush colorJoueur;
 
-        public Dictionary<int, string> indexNumSallesEtNoms = new Dictionary<int, string>() {
-            { 2, "Cuisine" },
-            { 3, "Salle de bal" },
-            { 4, "Véranda" },
-            { 5, "Billard" },
-            { 6, "Biblio" },
-            { 7, "Bureau" },
-            { 8, "Hall" },
-            { 9, "Salon" },
-            { 10, "Salle à manger" }
-        };
+        
 
         public NomsJoueurs NomJoueur { get { return _nomJoueur; } set { _nomJoueur = value; } }
         public int IndexCaseActuelle { get { return _indexCaseActuelle; } set { _indexCaseActuelle = value; } }
@@ -94,7 +86,7 @@ namespace WF_Cluedo.Models
                 {
                     if (caseSalle.NumeroSalleCase == IndexCaseActuelle)
                     {
-                        nomSalle = indexNumSallesEtNoms[IndexCaseActuelle];
+                        nomSalle = MesDictionaires.IndexNumCaseEtNomSalles[IndexCaseActuelle];
                     }
                 }
             }

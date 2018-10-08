@@ -16,10 +16,8 @@ namespace WF_Cluedo
     {
         Game _game;
 
+        MesDictionaires dicos = new MesDictionaires();
         internal Game Game { get { return _game; } set { _game = value; } }
-
-        // Faudra deplacer dans lautre fenetre avec les joueurs
-        public Dictionary<string, int> indexDepartPersonnages;
 
         // Cette liste viendra d'une autre fenetre
         internal List<Joueur> Joueurs;
@@ -29,25 +27,17 @@ namespace WF_Cluedo
             InitializeComponent();
             DoubleBuffered = true;
 
-            // Faudra deplacer dans lautre fenetre avec les joueurs
-            indexDepartPersonnages = new Dictionary<string, int>() {
-                { "LeBlanc", -1 },
-                { "Olive", -2 },
-                { "Pervenche", -3 },
-                { "Violet", -4 },
-                { "Rose", -5 },
-                { "Moutarde", -6 }
-            };
+            
 
             Joueurs = new List<Joueur>()
             {
                 //// Valeurs par defaut changer et mettre dans fenetre a part
-                new Joueur(NomsJoueurs.Moutarde, indexDepartPersonnages["Moutarde"]),
-                new Joueur(NomsJoueurs.LeBlanc, indexDepartPersonnages["LeBlanc"]),
-                new Joueur(NomsJoueurs.Olive, indexDepartPersonnages["Olive"]),
-                new Joueur(NomsJoueurs.Pervenche, indexDepartPersonnages["Pervenche"]),
-                new Joueur(NomsJoueurs.Rose, indexDepartPersonnages["Rose"]),
-                new Joueur(NomsJoueurs.Violet, indexDepartPersonnages["Violet"]),
+                new Joueur(NomsJoueurs.Moutarde, MesDictionaires.NomPersonnagesEtIndexDepart["Moutarde"]),
+                new Joueur(NomsJoueurs.LeBlanc, MesDictionaires.NomPersonnagesEtIndexDepart["LeBlanc"]),
+                new Joueur(NomsJoueurs.Olive, MesDictionaires.NomPersonnagesEtIndexDepart["Olive"]),
+                new Joueur(NomsJoueurs.Pervenche, MesDictionaires.NomPersonnagesEtIndexDepart["Pervenche"]),
+                new Joueur(NomsJoueurs.Rose, MesDictionaires.NomPersonnagesEtIndexDepart["Rose"]),
+                new Joueur(NomsJoueurs.Violet, MesDictionaires.NomPersonnagesEtIndexDepart["Violet"]),
             };
 
             Game = new Game(Joueurs, this);
