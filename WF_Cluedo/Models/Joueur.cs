@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_Cluedo.Models.Cartes;
 using WF_Cluedo.Models.Cases;
+using static WF_Cluedo.AbstractPetiteCase;
 
 namespace WF_Cluedo.Models
 {
@@ -19,6 +20,7 @@ namespace WF_Cluedo.Models
         int _positionY_pion;
         NomsJoueurs _nomJoueur;
         int _indexCaseActuelle;
+        AbstractPetiteCase _caseActuelle;
         List<AbstractCartes> _cartesEnMain;
         Brush colorJoueur;
 
@@ -32,6 +34,8 @@ namespace WF_Cluedo.Models
         public int PositionY_pion { get => _positionY_pion; set => _positionY_pion = value; }
 
         public static int TAILLE_PION => _TAILLE_PION;
+
+        internal AbstractPetiteCase CaseActuelle { get => _caseActuelle; set => _caseActuelle = value; }
 
         public Joueur(NomsJoueurs nom, int indexCaseDepart)
         {
@@ -76,19 +80,13 @@ namespace WF_Cluedo.Models
         /// </summary>
         /// <Game name="game">Jeu en cours</param>
         /// <returns>nom de la salle</returns>
-        public string GetNomSalleSiDedans(Game game)
+        public string GetNomSalleSiDedans()
         {
             string nomSalle = string.Empty;
 
-            foreach (Salle salle in game.Salles)
+            if (CaseActuelle.TypeDeLaCase == TYPES_CASES.Salle)
             {
-                foreach (CaseSalle caseSalle in salle.CasesDeLaSalle)
-                {
-                    if (caseSalle.NumeroSalleCase == IndexCaseActuelle)
-                    {
-                        nomSalle = MesDictionaires.IndexNumCaseEtNomSalles[IndexCaseActuelle];
-                    }
-                }
+                nomSalle = (CaseActuelle as CaseSalle).NomSalle;
             }
 
             return nomSalle;
@@ -105,6 +103,8 @@ namespace WF_Cluedo.Models
                     {
                         PositionX_pion = apc.PositionX + 1;
                         PositionY_pion = apc.PositionY + 1;
+                        CaseActuelle = apc;
+                        apc.Occupee = true;
                     }
                 }
             }
@@ -127,6 +127,21 @@ namespace WF_Cluedo.Models
 
             PositionX_pion = decalageX_1ereCase + (indexCaseX * largeurCase) + 1;
             PositionY_pion = decalageY_1ereCase + (indexCaseY * hauteurCase) + 1;
+
+            foreach (AbstractPetiteCase apc in game.PetitesCases)
+            {
+                if (apc.MatricePosX == indexCaseX && apc.MatricePosY == indexCaseY)
+                {
+                    // Regle l'etat de la case precedente
+                    CaseActuelle.Occupee = false;
+
+                    // Regle l'etat de la nouvelle case
+                    CaseActuelle = apc;
+                    CaseActuelle.Occupee = true;
+
+                    IndexCaseActuelle = game.matriceAffichageCase[indexCaseY][indexCaseX];
+                }
+            }
         }
 
         public void Paint(object sender, PaintEventArgs e)
@@ -136,7 +151,5 @@ namespace WF_Cluedo.Models
             e.Graphics.FillEllipse(colorJoueur, p.X, p.Y, TAILLE_PION, TAILLE_PION);
             e.Graphics.DrawEllipse(Pens.Black, p.X, p.Y, TAILLE_PION, TAILLE_PION);
         }
-
-        
     }
 }
