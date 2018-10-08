@@ -34,6 +34,7 @@ namespace WF_Cluedo.Models
             int positionY_1ereCaseSalle = CasesDeLaSalle[0].PositionY;
 
             Point p = new Point(positionX_1ereCaseSalle + DECALAGE_LABEL_X, positionY_1ereCaseSalle + DECALAGE_LABEL_Y);
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             e.Graphics.DrawString(NomSalle, new Font("Arial", 12, FontStyle.Bold), Brushes.Black, p);
         }
     }

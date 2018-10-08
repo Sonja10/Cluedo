@@ -53,6 +53,7 @@
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Joueur.cs" />
+    <Compile Include="Models\MesDictionaires.cs" />
     <Compile Include="Models\Salle.cs" />
     <Compile Include="Views\frmGameView.cs">
       <SubType>Form</SubType>

@@ -26,7 +26,7 @@ namespace WF_Cluedo
 
         public virtual void Paint(object sender, PaintEventArgs e)
         {
-            PointF p = new PointF(PositionX, PositionY);
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
         }
     }
 }
