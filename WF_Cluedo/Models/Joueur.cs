@@ -23,6 +23,7 @@ namespace WF_Cluedo.Models
         AbstractPetiteCase _caseActuelle;
         List<AbstractCartes> _cartesEnMain;
         Brush colorJoueur;
+        bool _modeDeplacement;
 
         
 
@@ -36,11 +37,13 @@ namespace WF_Cluedo.Models
         public static int TAILLE_PION => _TAILLE_PION;
 
         internal AbstractPetiteCase CaseActuelle { get => _caseActuelle; set => _caseActuelle = value; }
+        public bool ModeDeplacement { get => _modeDeplacement; set => _modeDeplacement = value; }
 
         public Joueur(NomsJoueurs nom, int indexCaseDepart)
         {
             NomJoueur = nom;
             IndexCaseActuelle = indexCaseDepart;
+            ModeDeplacement = false;
 
             switch (IndexCaseActuelle)
             {

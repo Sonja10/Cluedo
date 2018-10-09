@@ -47,5 +47,25 @@ namespace WF_Cluedo
         {
             Invalidate();
         }
+
+        private void frmGameView_MouseHover(object sender, EventArgs e)
+        {
+            if (Game.JoueurActuel.ModeDeplacement == true)
+            {
+                foreach (AbstractPetiteCase apc in Game.CasesPossibles)
+                {
+                    this.Cursor = new Cursor(Cursor.Current.Handle);
+
+                    if (Cursor.Position.X >= apc.PositionX && Cursor.Position.X <= apc.PositionX + apc.WIDTH_CASE &&
+                        Cursor.Position.Y >= apc.PositionY && Cursor.Position.Y <= apc.PositionY + apc.HEIGHT_CASE)
+                    {
+                        if (apc is CaseCouloir)
+                        {
+                            (apc as CaseCouloir).ImageFond = Properties.Resources.fondCouloirs;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

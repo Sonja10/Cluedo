@@ -21,6 +21,7 @@ namespace WF_Cluedo.Models
         List<Salle> _salles; // A creer et remplir des casesSalle
         List<AbstractCartes> _combinaisonVictorieuse; // Tirer au hasard dans _toutes les cartes possibles
         List<AbstractCartes> _toutesLesCartesPossibles; // Mettre en dur
+        List<AbstractPetiteCase> _casesPossibles;
         List<AbstractPetiteCase> _petitesCases; // Liste de toute les petites cases Sous forme de matrice?
         Joueur _joueurActuel;
 
@@ -69,7 +70,7 @@ namespace WF_Cluedo.Models
         public int POSITION_X_1ERE_CASE => _POSITION_X_1ERE_CASE;
         public int POSITION_Y_1ERE_CASE => _POSITION_Y_1ERE_CASE;
 
-        
+        internal List<AbstractPetiteCase> CasesPossibles { get => _casesPossibles; set => _casesPossibles = value; }
 
         public Game(List<Joueur> joueurs, Form view)
         {
@@ -80,6 +81,7 @@ namespace WF_Cluedo.Models
             int largeurCase = (new CaseCouloir(1, 1, 1, 1)).WIDTH_CASE;
             int hauteurCase = (new CaseCouloir(1, 1, 1, 1)).HEIGHT_CASE;
 
+            CasesPossibles = new List<AbstractPetiteCase>();
             PetitesCases = new List<AbstractPetiteCase>();
             Salles = new List<Salle>()
             {
@@ -190,31 +192,37 @@ namespace WF_Cluedo.Models
                 view.Paint += salle.Paint;
             }
 
-
-
             // Joueurs
+            InitialisationJoueurs(joueurs, view);
+        }
+
+        public void InitialisationJoueurs(List<Joueur> joueurs, Form view)
+        {
+            Random rnd = new Random();
             Joueurs = joueurs;
+
             foreach (Joueur j in Joueurs)
             {
                 view.Paint += j.Paint;
                 j.PlaceJoueurSurCaseDepart(this);
             }
 
-            Random rnd = new Random();
-            JoueurActuel = Joueurs[rnd.Next(Joueurs.Count)];
+            //Set mains joueurs
 
+            JoueurActuel = Joueurs[rnd.Next(Joueurs.Count)];
+            SetJoueurActuel();
+        }
+
+        public void SetJoueurActuel()
+        {
+            JoueurActuel.ModeDeplacement = true;
             JoueurActuel.PlaceSurCaseDemandee(this, 17, 14);
-            //AbstractPetiteCase apcCaseActu = JoueurActuel.CaseActuelle;
-            //string type = JoueurActuel.CaseActuelle.TypeDeLaCase.ToString();
-            //string nomCase = JoueurActuel.GetNomSalleSiDedans();
-            AffichageCaseDeplacementPossible(12);
-            //Set main joueur
+            AffichageCaseDeplacementPossible(2);
         }
 
         public void AffichageCaseDeplacementPossible(int nombreLanceDe)
         {
-            List<AbstractPetiteCase> CasesPossibles = new List<AbstractPetiteCase>();
-
+            // Definition des cases possibles
             for (int i = 1; i < nombreLanceDe; i++)
             {
                 foreach (AbstractPetiteCase apc in PetitesCases)
@@ -233,6 +241,7 @@ namespace WF_Cluedo.Models
                 }
             }
 
+            // Affichage
             foreach (AbstractPetiteCase apc in CasesPossibles)
             {
                 if (apc is CaseCouloir)

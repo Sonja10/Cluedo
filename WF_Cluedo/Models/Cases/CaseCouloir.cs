@@ -12,8 +12,7 @@ namespace WF_Cluedo.Models.Cases
     {
         Image _imageFond;
         bool _caseDeplacementPossible;
-        private Image ImageFond { get { return _imageFond; } set { _imageFond = value; } }
-
+        public Image ImageFond { get { return _imageFond; } set { _imageFond = value; } }
         public bool CaseDeplacementPossible { get => _caseDeplacementPossible; set => _caseDeplacementPossible = value; }
 
         public CaseCouloir(int posX, int posY, int matricePosX, int matricePosY)

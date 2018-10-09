@@ -51,6 +51,7 @@
             this.Name = "frmGameView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cluedo";
+            this.MouseHover += new System.EventHandler(this.frmGameView_MouseHover);
             this.ResumeLayout(false);
 
         }
