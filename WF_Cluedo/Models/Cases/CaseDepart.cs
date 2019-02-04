@@ -14,10 +14,13 @@ namespace WF_Cluedo.Models.Cases
         
         public int NumeroPersoCase { get => _numeroPersoCase; set => _numeroPersoCase = value; }
 
-        public CaseDepart(int posX, int posY, int numeroPersoCase)
+        public CaseDepart(int posX, int posY, int matricePosX, int matricePosY, int numeroPersoCase)
         {
             PositionX = posX;
             PositionY = posY;
+            MatricePosX = matricePosX;
+            MatricePosY = matricePosY;
+            TypeDeLaCase = TYPES_CASES.Depart;
             NumeroPersoCase = numeroPersoCase; //Nombre que jai mis dans la matrice des cases du jeu pour differencier les personnages/couleurs
         }
 

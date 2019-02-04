@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_Cluedo.Models.Cartes;
 using WF_Cluedo.Models.Cases;
+using static WF_Cluedo.AbstractPetiteCase;
 
 namespace WF_Cluedo.Models
 {
@@ -20,12 +21,9 @@ namespace WF_Cluedo.Models
         List<Salle> _salles; // A creer et remplir des casesSalle
         List<AbstractCartes> _combinaisonVictorieuse; // Tirer au hasard dans _toutes les cartes possibles
         List<AbstractCartes> _toutesLesCartesPossibles; // Mettre en dur
+        List<AbstractPetiteCase> _casesPossibles;
         List<AbstractPetiteCase> _petitesCases; // Liste de toute les petites cases Sous forme de matrice?
         Joueur _joueurActuel;
-
-        
-
-        
 
         //CaseCouloir = 1, 
         //Cuisine = 2, SalleDeBal = 3, Veranda = 4, billard = 5, biblio = 6, bureau = 7, hall = 8, salon = 9, SalleManger = 10, 
@@ -67,9 +65,12 @@ namespace WF_Cluedo.Models
         public List<AbstractPetiteCase> PetitesCases { get { return _petitesCases; } private set { _petitesCases = value; } }
         internal List<Salle> Salles { get => _salles; set => _salles = value; }
         internal List<Joueur> Joueurs { get => _joueurs; set => _joueurs = value; }
+        internal Joueur JoueurActuel { get => _joueurActuel; set => _joueurActuel = value; }
 
         public int POSITION_X_1ERE_CASE => _POSITION_X_1ERE_CASE;
         public int POSITION_Y_1ERE_CASE => _POSITION_Y_1ERE_CASE;
+
+        internal List<AbstractPetiteCase> CasesPossibles { get => _casesPossibles; set => _casesPossibles = value; }
 
         public Game(List<Joueur> joueurs, Form view)
         {
@@ -77,9 +78,10 @@ namespace WF_Cluedo.Models
 
             int posX = POSITION_X_1ERE_CASE;
             int posY = POSITION_Y_1ERE_CASE;
-            int largeurCase = (new CaseCouloir(1, 1)).WIDTH_CASE;
-            int hauteurCase = (new CaseCouloir(1, 1)).HEIGHT_CASE;
+            int largeurCase = (new CaseCouloir(1, 1, 1, 1)).WIDTH_CASE;
+            int hauteurCase = (new CaseCouloir(1, 1, 1, 1)).HEIGHT_CASE;
 
+            CasesPossibles = new List<AbstractPetiteCase>();
             PetitesCases = new List<AbstractPetiteCase>();
             Salles = new List<Salle>()
             {
@@ -100,16 +102,16 @@ namespace WF_Cluedo.Models
                 {
                     if (matriceAffichageCase[i][j] == 1)
                     {
-                        CaseCouloir caseCouloir = new CaseCouloir(posX, posY);
+                        CaseCouloir caseCouloir = new CaseCouloir(posX, posY, j, i);
                         PetitesCases.Add(caseCouloir);
                     }
                     else if (matriceAffichageCase[i][j] < 0)
                     {
-                        PetitesCases.Add(new CaseDepart(posX, posY, matriceAffichageCase[i][j]));
+                        PetitesCases.Add(new CaseDepart(posX, posY, j, i, matriceAffichageCase[i][j]));
                     }
                     else if (matriceAffichageCase[i][j] > 1)
                     {
-                        PetitesCases.Add(new CaseSalle(posX, posY, matriceAffichageCase[i][j]));
+                        PetitesCases.Add(new CaseSalle(posX, posY, j, i, matriceAffichageCase[i][j]));
                     }
                     else
                     {
@@ -190,20 +192,67 @@ namespace WF_Cluedo.Models
                 view.Paint += salle.Paint;
             }
 
-
-
             // Joueurs
+            InitialisationJoueurs(joueurs, view);
+        }
+
+        public void InitialisationJoueurs(List<Joueur> joueurs, Form view)
+        {
+            Random rnd = new Random();
             Joueurs = joueurs;
+
             foreach (Joueur j in Joueurs)
             {
                 view.Paint += j.Paint;
                 j.PlaceJoueurSurCaseDepart(this);
             }
 
-            Joueurs[0].PlaceSurCaseDemandee(this, 7, 3);
+            //Set mains joueurs
 
-            //Set main joueur
+            JoueurActuel = Joueurs[rnd.Next(Joueurs.Count)];
+            SetJoueurActuel();
         }
 
+        public void SetJoueurActuel()
+        {
+            JoueurActuel.ModeDeplacement = true;
+            JoueurActuel.PlaceSurCaseDemandee(this, 17, 14);
+            AffichageCaseDeplacementPossible(2);
+        }
+
+        public void AffichageCaseDeplacementPossible(int nombreLanceDe)
+        {
+            // Definition des cases possibles
+            for (int i = 1; i < nombreLanceDe; i++)
+            {
+                foreach (AbstractPetiteCase apc in PetitesCases)
+                {
+                    if (apc.MatricePosX >= JoueurActuel.CaseActuelle.MatricePosX - nombreLanceDe && apc.MatricePosX <= JoueurActuel.CaseActuelle.MatricePosX + nombreLanceDe &&
+                        apc.MatricePosY >= JoueurActuel.CaseActuelle.MatricePosY - nombreLanceDe && apc.MatricePosY <= JoueurActuel.CaseActuelle.MatricePosY + nombreLanceDe )
+                    {
+                        if (apc.MatricePosX == JoueurActuel.CaseActuelle.MatricePosX + i && apc.MatricePosY >= JoueurActuel.CaseActuelle.MatricePosY - nombreLanceDe + i && apc.MatricePosY <= JoueurActuel.CaseActuelle.MatricePosY + nombreLanceDe - i ||
+                            apc.MatricePosX == JoueurActuel.CaseActuelle.MatricePosX - i && apc.MatricePosY >= JoueurActuel.CaseActuelle.MatricePosY - nombreLanceDe + i && apc.MatricePosY <= JoueurActuel.CaseActuelle.MatricePosY + nombreLanceDe - i ||
+                            apc.MatricePosX <= JoueurActuel.CaseActuelle.MatricePosX + nombreLanceDe && apc.MatricePosX >= JoueurActuel.CaseActuelle.MatricePosX - nombreLanceDe && apc.MatricePosY == JoueurActuel.CaseActuelle.MatricePosY ||
+                            apc.MatricePosY <= JoueurActuel.CaseActuelle.MatricePosY + nombreLanceDe && apc.MatricePosY >= JoueurActuel.CaseActuelle.MatricePosY - nombreLanceDe && apc.MatricePosX == JoueurActuel.CaseActuelle.MatricePosX)
+                        {
+                            CasesPossibles.Add(apc);
+                        }
+                    }
+                }
+            }
+
+            // Affichage
+            foreach (AbstractPetiteCase apc in CasesPossibles)
+            {
+                if (apc is CaseCouloir)
+                {
+                    (apc as CaseCouloir).CaseDeplacementPossible = true;
+                }
+                else if (apc is CaseSalle)
+                {
+
+                }
+            }
+        }
     }
 }
