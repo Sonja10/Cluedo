@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,25 +39,25 @@ namespace WF_Cluedo.Models
             new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 4, 4, 4, 4, 4, 4, 0 },
             new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 4, 4, 4, 4, 4, 4, 0 },
             new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 4, 4, 4, 4, 4, 4, 0 },
-            new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 11, 3, 3, 3, 3, 3, 3, 11, 1, 1, 1, 11, 4, 4, 4, 0, 0 },
-            new int[] { 0, 0, 2, 2, 2, 11, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, -3, 0 },
-            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 11, 3, 3, 3, 3, 11, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+            new int[] { 0, 2, 2, 2, 2, 2, 2, 1, 1, 13, 3, 3, 3, 3, 3, 3, 13, 1, 1, 1, 14, 4, 4, 4, 0, 0 },
+            new int[] { 0, 0, 2, 2, 2, 12, 2, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, -3, 0 },
+            new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 13, 3, 3, 3, 3, 13, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
             new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 0 },
-            new int[] { 0, 10, 10, 10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 5, 5, 5, 5, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 5, 5, 5, 5, 5, 0 },
             new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 5, 5, 0 },
             new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 5, 5, 0 },
-            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 11, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 11, 5, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 100, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 5, 5, 5, 5, 15, 5, 0 },
             new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
-            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 6, 6, 11, 6, 6, 0, 0 },
-            new int[] { 0, 10, 10, 10, 10, 10, 10, 11, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 },
-            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 11, 6, 6, 6, 6, 6, 6, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 10, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 6, 6, 16, 6, 6, 0, 0 },
+            new int[] { 0, 10, 10, 10, 10, 10, 10, 100, 10, 1, 1, 0, 0, 0, 0, 0, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 },
+            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 16, 6, 6, 6, 6, 6, 6, 0 },
             new int[] { 0, -6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 0 }, 
-            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 11, 11, 8, 8, 1, 1, 1, 6, 6, 6, 6, 6, 0, 0 },
-            new int[] { 0, 9, 9, 9, 9, 9, 9, 11, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, -4, 0 },
-            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 11, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
-            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 11, 7, 7, 7, 7, 7, 7, 0 },
+            new int[] { 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 18, 18, 8, 8, 1, 1, 1, 6, 6, 6, 6, 6, 0, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 19, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, -4, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 18, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 17, 7, 7, 7, 7, 7, 7, 0 },
             new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 7, 7, 7, 7, 7, 7, 7, 0 },
-            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 11, 7, 7, 7, 7, 7, 7, 0 },
+            new int[] { 0, 9, 9, 9, 9, 9, 9, 9, 1, 1, 8, 8, 8, 8, 8, 8, 1, 1, 17, 7, 7, 7, 7, 7, 7, 0 },
             new int[] { 0, 9, 9, 9, 9, 9, 9, 0, -5, 0, 0, 8, 8, 8, 8, 0, 0, 1, 0, 7, 7, 7, 7, 7, 7, 0 },
             new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
@@ -127,11 +128,36 @@ namespace WF_Cluedo.Models
                 posX = POSITION_X_1ERE_CASE;
             }
 
+
             foreach (AbstractPetiteCase apc in PetitesCases)
             {
                 if (apc is CaseCouloir == false)
                 {
                     view.Paint += apc.Paint;
+                }
+
+                if (apc is CaseSalle)
+                {
+                    // Si la case de gauche est un couloir
+                    if (matriceAffichageCase[apc.MatricePosY][apc.MatricePosX - 1] == 1 || matriceAffichageCase[apc.MatricePosY][apc.MatricePosX - 1] == 0)
+                    {
+                        (apc as CaseSalle).DirectionBordure = "G";
+                    }
+                    // Si la case de droite est un couloir
+                    if (matriceAffichageCase[apc.MatricePosY][apc.MatricePosX + 1] == 1 || matriceAffichageCase[apc.MatricePosY][apc.MatricePosX + 1] == 0)
+                    {
+                        (apc as CaseSalle).DirectionBordure += "D";
+                    }
+                    // Si la case de haut est un couloir
+                    if (matriceAffichageCase[apc.MatricePosY - 1][apc.MatricePosX] == 1 || matriceAffichageCase[apc.MatricePosY - 1][apc.MatricePosX] == 0)
+                    {
+                        (apc as CaseSalle).DirectionBordure += "H";
+                    }
+                    // Si la case de bas est un couloir
+                    if (matriceAffichageCase[apc.MatricePosY + 1][apc.MatricePosX] == 1 || matriceAffichageCase[apc.MatricePosY + 1][apc.MatricePosX] == 0)
+                    {
+                        (apc as CaseSalle).DirectionBordure += "B";
+                    }
                 }
 
 
@@ -216,12 +242,28 @@ namespace WF_Cluedo.Models
         public void SetJoueurActuel()
         {
             JoueurActuel.ModeDeplacement = true;
-            JoueurActuel.PlaceSurCaseDemandee(this, 17, 14);
             AffichageCaseDeplacementPossible(2);
         }
 
         public void AffichageCaseDeplacementPossible(int nombreLanceDe)
         {
+            //Suppression des cases possibles precedentes 
+            foreach (AbstractPetiteCase apc in CasesPossibles)
+            {
+                if (apc is CaseCouloir)
+                {
+                    (apc as CaseCouloir).CaseDeplacementPossible = false;
+                }
+            }
+            CasesPossibles.Clear();
+            foreach (AbstractPetiteCase apc in PetitesCases)
+            {
+                if (apc is CaseSalle && (apc as CaseSalle).SalleDeplacementPossible)
+                {
+                    (apc as CaseSalle).SalleDeplacementPossible = false;
+                }
+            }
+
             // Definition des cases possibles
             for (int i = 1; i < nombreLanceDe; i++)
             {
@@ -248,11 +290,51 @@ namespace WF_Cluedo.Models
                 {
                     (apc as CaseCouloir).CaseDeplacementPossible = true;
                 }
-                else if (apc is CaseSalle)
+                // Si c'est une porte de caseSalle
+                else if (apc is CaseSalle && matriceAffichageCase[apc.MatricePosY][apc.MatricePosX] > 10)
                 {
-
+                    // On cherche dans toutes les cases
+                    foreach (AbstractPetiteCase apc2 in PetitesCases)
+                    {
+                        // On recupere les cases salle
+                        if (apc2 is CaseSalle)
+                        {
+                            // Si le nom de la salle correspond au nom de la porte
+                            if ((apc2 as CaseSalle).NomSalle == (apc as CaseSalle).NomSalle)
+                            {
+                                (apc as CaseSalle).SalleDeplacementPossible = true;
+                                (apc2 as CaseSalle).SalleDeplacementPossible = true;
+                            }
+                        }
+                    }
                 }
             }
+        }
+
+        public Point RecupererCaseClickee(int posXClick, int posYClick)
+        {
+            Point coordMatrice = new Point();
+
+            foreach (AbstractPetiteCase apc in PetitesCases)
+            {
+                if (posXClick > apc.PositionX && posXClick < apc.PositionX + apc.WIDTH_CASE &&
+                    posYClick > apc.PositionY && posYClick < apc.PositionY + apc.HEIGHT_CASE)
+                {
+                    coordMatrice.X = apc.MatricePosX;
+                    coordMatrice.Y = apc.MatricePosY;
+                }
+            }
+
+            return coordMatrice;
+        }
+
+        // Method de debug
+        public void DeplaceJoueurClick(Point mousePositionClick)
+        {
+            Point coordMatriceCase = RecupererCaseClickee(mousePositionClick.X,mousePositionClick.Y);
+            JoueurActuel.PlaceSurCaseDemandee(this, coordMatriceCase.X, coordMatriceCase.Y);
+            SetJoueurActuel();
+            
         }
     }
 }

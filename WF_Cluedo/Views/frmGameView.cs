@@ -67,5 +67,13 @@ namespace WF_Cluedo
                 }
             }
         }
+
+        // Event de debug
+        private void frmGameView_Click(object sender, EventArgs e)
+        {
+            Point mousePositionClient = new Point(MousePosition.X, MousePosition.Y);
+            mousePositionClient = PointToClient(mousePositionClient);
+            Game.DeplaceJoueurClick(mousePositionClient);
+        }
     }
 }
